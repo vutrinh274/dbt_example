@@ -19,7 +19,7 @@ jobs:
         uses: orchestra-hq/run-pipeline@v1
         with:
           api_key: ${{ secrets.ORCHESTRA_API_KEY }}
-          pipeline_id: 8399e347-f379-457c-be8f-e70cbc7bf8fa
+          pipeline_id: 5ee492db-bf6c-4618-bf06-8edf80305431
           poll_interval: 10
           environment: develop
 
@@ -34,6 +34,6 @@ jobs:
         uses: orchestra-hq/run-pipeline@v1
         with:
           api_key: ${{ secrets.ORCHESTRA_API_KEY }}
-          pipeline_id: 8399e347-f379-457c-be8f-e70cbc7bf8fa
+          pipeline_id: 5ee492db-bf6c-4618-bf06-8edf80305431
           poll_interval: 10
           environment: production
