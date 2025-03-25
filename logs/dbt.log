@@ -1,0 +1,55 @@
+[0m21:27:27.569691 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x103a84920>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1045b8830>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1045b8470>]}
+
+
+============================== 21:27:27.574048 | 18f9367d-ac3c-4ee4-b23b-a4d0b1081a2e ==============================
+[0m21:27:27.574048 [info ] [MainThread]: Running with dbt=1.9.3
+[0m21:27:27.574611 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': 'dags/dbt/ama_dwh', 'debug': 'False', 'warn_error': 'None', 'log_path': 'logs', 'version_check': 'True', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'log_format': 'default', 'invocation_command': 'dbt init dbt_example', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m21:27:27.591203 [info ] [MainThread]: Creating dbt configuration folder at dags/dbt/ama_dwh
+[0m21:27:27.592846 [debug] [MainThread]: Starter project path: /Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m21:27:27.611011 [info ] [MainThread]: 
+Your new dbt project "dbt_example" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m21:27:27.611680 [info ] [MainThread]: Setting up your profile.
+[0m21:43:54.887773 [error] [MainThread]: Encountered an error:
+[Errno 2] No such file or directory: 'dags/dbt/ama_dwh/profiles.yml'
+[0m21:43:54.895161 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 153, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 103, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/cli/main.py", line 477, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/task/init.py", line 346, in run
+    self.setup_profile(profile_name)
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/task/init.py", line 262, in setup_profile
+    self.create_profile_from_target(adapter, profile_name=profile_name)
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/task/init.py", line 179, in create_profile_from_target
+    self.create_profile_from_profile_template(profile_template, profile_name)
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/task/init.py", line 166, in create_profile_from_profile_template
+    self.write_profile(profile, profile_name)
+  File "/Users/vu.tp/Documents/Personal/dbt_example/.venv/lib/python3.12/site-packages/dbt/task/init.py", line 156, in write_profile
+    with open(profiles_filepath, "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'dags/dbt/ama_dwh/profiles.yml'
+
+[0m21:43:54.938310 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 987.4811, "process_in_blocks": "0", "process_kernel_time": 0.283778, "process_mem_max_rss": "104923136", "process_out_blocks": "0", "process_user_time": 1.221002}
+[0m21:43:54.939463 [debug] [MainThread]: Command `dbt init` failed at 21:43:54.939271 after 987.48 seconds
+[0m21:43:54.940383 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x103aa8e00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x104b36e10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1048c9820>]}
+[0m21:43:54.941017 [debug] [MainThread]: Flushing usage events
+[0m21:43:56.294872 [debug] [MainThread]: An error was encountered while trying to flush usage events
