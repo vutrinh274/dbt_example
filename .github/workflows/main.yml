@@ -1,0 +1,39 @@
+name: orchestra_ci_cd
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test_on_dev:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.head_ref == 'develop'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Orchestra Pipeline On Dev Env
+        uses: orchestra-hq/run-pipeline@v1
+        with:
+          api_key: ${{ secrets.ORCHESTRA_API_KEY }}
+          pipeline_id: 8399e347-f379-457c-be8f-e70cbc7bf8fa
+          poll_interval: 20
+          environment: develop
+
+
+  run-on-prod:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Orchestra Pipeline On Dev Env
+        uses: orchestra-hq/run-pipeline@v1
+        with:
+          api_key: ${{ secrets.ORCHESTRA_API_KEY }}
+          pipeline_id: 8399e347-f379-457c-be8f-e70cbc7bf8fa
+          poll_interval: 1-
+          environment: production
