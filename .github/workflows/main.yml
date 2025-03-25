@@ -20,7 +20,7 @@ jobs:
         with:
           api_key: ${{ secrets.ORCHESTRA_API_KEY }}
           pipeline_id: 8399e347-f379-457c-be8f-e70cbc7bf8fa
-          poll_interval: 20
+          poll_interval: 10
           environment: develop
 
 
@@ -35,5 +35,5 @@ jobs:
         with:
           api_key: ${{ secrets.ORCHESTRA_API_KEY }}
           pipeline_id: 8399e347-f379-457c-be8f-e70cbc7bf8fa
-          poll_interval: 1-
+          poll_interval: 10
           environment: production
