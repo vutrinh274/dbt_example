@@ -1,0 +1,35 @@
+version: v1
+name: my_github_pipeline
+pipeline:
+  d3c03bf8-d336-4875-adad-f225c7d6e627:
+    tasks:
+      11701d49-4f36-4e5f-a456-2b7580fe1dcc:
+        integration: PYTHON
+        integration_job: PYTHON_EXECUTE_SCRIPT
+        parameters:
+          command: python ./python/upload_to_s3.py
+          package_manager: PIP
+          python_version: '3.12'
+          build_command: pip install -r python-requirements.txt
+          branch: main
+          set_outputs: false
+        depends_on: []
+        condition: null
+        name: load_data_to_s3
+        tags: []
+        connection: my_python_connection_10334
+        operation_metadata: null
+        treat_failure_as_warning: null
+        configuration: null
+    depends_on: []
+    condition: null
+    name: ''
+schedule: []
+sensors: {}
+trigger_events: []
+webhook:
+  enabled: false
+  operation_metadata: null
+  run_inputs: null
+configuration: null
+inputs: null
