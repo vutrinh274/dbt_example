@@ -115,6 +115,28 @@ pipeline:
     - 23ed89f3-d5d9-4eb7-b886-2be22dd3a684
     condition: null
     name: ''
+  new_dbt_task_id:
+    tasks:
+      new_dbt_task:
+        integration: DBT_CORE
+        integration_job: DBT_CORE_EXECUTE
+        parameters:
+          commands: dbt build -s tag:insisht
+          package_manager: PIP
+          python_version: '3.12'
+          project_dir: dbt_example
+        depends_on: []
+        condition: null
+        name: the_brand_new_dbt_task
+        tags: []
+        connection: ${{ ENV.dbt_connection }}
+        operation_metadata: null
+        treat_failure_as_warning: null
+        configuration: null
+    depends_on:
+    - 90f056e2-a4c7-4bf0-afe4-71cc9b332feb
+    condition: null
+    name: ''
 schedule: []
 sensors: {}
 trigger_events: []
