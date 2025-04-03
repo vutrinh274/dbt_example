@@ -1,0 +1,126 @@
+version: v1
+name: '[COPY] my_first_orchestra_pipeline'
+pipeline:
+  8399e347-f379-457c-be8f-e70cbc7bf8fa:
+    tasks:
+      0d6acfc1-9003-4373-af41-ae334eec4d10:
+        integration: PYTHON
+        integration_job: PYTHON_EXECUTE_SCRIPT
+        parameters:
+          command: python ./python/upload_to_s3.py
+          package_manager: PIP
+          python_version: '3.12'
+          build_command: pip install -r python-requirements.txt
+          branch: main
+          set_outputs: false
+        depends_on: []
+        condition: null
+        name: load_data_to_s3
+        tags: []
+        connection: my_python_connection_10334
+        operation_metadata: null
+        treat_failure_as_warning: null
+        configuration: null
+    depends_on: []
+    condition: null
+    name: ''
+  0fb9380f-516b-4734-8273-49b9d3db2a1b:
+    tasks:
+      4f77b6fc-2db6-413b-8231-e6d22de74eba:
+        integration: SNOWFLAKE
+        integration_job: SNOWFLAKE_RUN_QUERY
+        parameters:
+          statement: "-- product_categories\nCREATE OR REPLACE TABLE dbt_raw.public.product_categories\
+            \ (\n    product_category_key STRING,\n    category_name STRING\n);\n\
+            COPY INTO dbt_raw.public.product_categories\n  FROM @my_s3_stage/AdventureWorks_Product_Categories.csv;\n\
+            \n-- product_subcategories\nCREATE OR REPLACE TABLE dbt_raw.public.product_subcategories\
+            \ (\n    product_subcategory_key STRING,\n    subcategory_name STRING,\n\
+            \    product_category_Key STRING\n);\nCOPY INTO dbt_raw.public.product_subcategories\n\
+            \  FROM @my_s3_stage/AdventureWorks_Product_Subcategories.csv;\n\n-- products\n\
+            \nCREATE OR REPLACE TABLE dbt_raw.public.products (\n    product_key STRING,\n\
+            \    product_subcategory_key STRING,\n    product_sku STRING,\n    product_name\
+            \ STRING,\n    model_name STRING,\n    product_description STRING,\n \
+            \   product_color STRING,\n    product_size STRING,\n    product_style\
+            \ STRING,\n    product_cost FLOAT,\n    product_price FLOAT\n);\nCOPY\
+            \ INTO dbt_raw.public.products\n  FROM @my_s3_stage/AdventureWorks_Products.csv;\n\
+            \n -- sales\nCREATE OR REPLACE TABLE dbt_raw.public.sales (\n    order_date\
+            \ STRING,\n    stock_date STRING,\n    order_number STRING,\n    product_key\
+            \ STRING,\n    customer_key STRING,\n    territory_key STRING,\n    order_line_item\
+            \ INT,\n    order_quantity INT\n);\nCOPY INTO dbt_raw.public.sales\n \
+            \ FROM @my_s3_stage/AdventureWorks_Sales_2017.csv;\n\n-- territories\n\
+            CREATE OR REPLACE TABLE dbt_raw.public.territories (\n    sales_territory_key\
+            \ STRING,\n    region STRING,\n    country STRING,\n    continent STRING\n\
+            );\nCOPY INTO dbt_raw.public.territories\n  FROM @my_s3_stage/AdventureWorks_Territories.csv;"
+          set_outputs: false
+        depends_on: []
+        condition: null
+        name: s3_to_snowflake
+        tags: []
+        connection: my_snowflake_connection_00634
+        operation_metadata: null
+        treat_failure_as_warning: null
+        configuration: null
+    depends_on:
+    - 8399e347-f379-457c-be8f-e70cbc7bf8fa
+    condition: null
+    name: ''
+  23ed89f3-d5d9-4eb7-b886-2be22dd3a684:
+    tasks:
+      3cad1939-0b50-44dc-9a13-4520356f1636:
+        integration: DBT_CORE
+        integration_job: DBT_CORE_EXECUTE
+        parameters:
+          commands: dbt build -s tag:staging
+          package_manager: PIP
+          python_version: '3.12'
+          project_dir: dbt_example
+          warehouse_identifier: KADEPGV-NO53410
+        depends_on: []
+        condition: null
+        name: dbt_staging
+        tags: []
+        connection: ${{ ENV.dbt_connection }}
+        operation_metadata:
+          008b21c0-42de-4ceb-98d7-15f6f3b3a6c0:
+            s3_bucket_name: null
+            s3_key_prefix: null
+            dbt_warehouse_identifier: null
+            integration: SNOWFLAKE
+            connection: my_snowflake_connection_00634
+        treat_failure_as_warning: null
+        configuration: null
+    depends_on:
+    - 0fb9380f-516b-4734-8273-49b9d3db2a1b
+    condition: null
+    name: ''
+  90f056e2-a4c7-4bf0-afe4-71cc9b332feb:
+    tasks:
+      46fcaa77-b6b8-4940-b201-34379cb29206:
+        integration: DBT_CORE
+        integration_job: DBT_CORE_EXECUTE
+        parameters:
+          commands: dbt build -s tag:curated
+          package_manager: PIP
+          python_version: '3.12'
+          project_dir: dbt_example
+        depends_on: []
+        condition: null
+        name: dbt_curated
+        tags: []
+        connection: ${{ ENV.dbt_connection }}
+        operation_metadata: null
+        treat_failure_as_warning: null
+        configuration: null
+    depends_on:
+    - 23ed89f3-d5d9-4eb7-b886-2be22dd3a684
+    condition: null
+    name: ''
+schedule: []
+sensors: {}
+trigger_events: []
+webhook:
+  enabled: false
+  operation_metadata: null
+  run_inputs: null
+configuration: null
+inputs: null
